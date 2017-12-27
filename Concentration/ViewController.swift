@@ -22,16 +22,18 @@ class ViewController: UIViewController
     @IBOutlet weak var flipCountLabel: UILabel!
     
     @IBOutlet var cardButtons: [UIButton]!
-    
-    
+    // check if the theme is chosen
+    var checkChosenTheme = 0
     @IBAction func touchCard(_ sender: UIButton) {
+        if checkChosenTheme == 0 {
+            chooseThemes(at: 1)
+        }
         flipCount += 1
         if let cardNumber = cardButtons.index(of: sender) {
             game.chooseCard(at: cardNumber)
             updateViewFromModel()
         } else {
-            print("chosen card aws not in cardBottons")
-
+            print("chosen card was not in cardBottons")
         }
     }
     
@@ -50,17 +52,40 @@ class ViewController: UIViewController
         }
     }
     
-    var emojiChoices = ["👻","🎃","🍭","🍬","👿","🦇","🍎","😱","🙀"]
+    //TODO: Make 6 themes
+
+    var emojiChoices = [String]()
+    
 
     var emoji = [Int:String]()
     
     func emoji(for card: Card) -> String {
         if emoji[card.identifier] == nil, emojiChoices.count > 0 {
-                let randomIndex = Int(arc4random_uniform(UInt32(emojiChoices.count)))
-                emoji[card.identifier] = emojiChoices.remove(at: randomIndex)
+            let randomIndex = Int(arc4random_uniform(UInt32(emojiChoices.count)))
+            emoji[card.identifier] = emojiChoices.remove(at: randomIndex)
         }
+        print("card.identifier = \(emoji)")
         return emoji[card.identifier] ?? "?"
     }
+    
+    //TODO: "New Game" button
+    @IBAction func startNewGame(_ sender: UIButton) {
+        flipCount = 0
+        emoji = [Int:String]()
+        chooseThemes(at: 1)
+        let randomIndex = Int(arc4random_uniform(UInt32(game.cards.count)))
+        let shuffleCard = game.cards[0]
+        game.cards[0] = game.cards[randomIndex]
+        game.cards[randomIndex] = shuffleCard
+        for index in cardButtons.indices {
+            let button = cardButtons[index]
+            button.setTitle("", for: UIControlState.normal)
+            button.backgroundColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+            game.cards[index].isFaceUp = false
+            game.cards[index].isMatched = false
+            game.indexOfOneAndOnlyFaceUpCard = nil
 
+        }
+    }
 }
 
