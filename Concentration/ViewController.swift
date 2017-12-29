@@ -56,6 +56,19 @@ class ViewController: UIViewController
 
     var emojiChoices = [String]()
     
+    func chooseThemes(at index: Int) {
+        var themeIndex = index
+        checkChosenTheme = 1
+        let theme = ["sports": ["⚽️","🏀","🏈","⚾️","🎾","🏐","🏉","🎱","🏓","🏸"],
+                     "cars": ["🚗","🚕","🚙","🚌","🚎","🏎","🚓","🚑","🚒","🚐"],
+                     "halloween": ["👻","🎃","🍭","🍬","👿","🦇","🍎","😱","🙀","☠"],
+                     "faces": ["😄","😇","😍","😎","🤠","🤡","😂","😡","😰","🤢"],
+                     "animals": ["🐶","🐭","🐹","🐼","🐸","🐷","🐔","🦄","🦊","🦁"],
+                     "fruits": ["🍉","🍇","🍓","🍋","🥝","🍒","🍊","🍌","🍎","🍑"]]
+        let themeKeys = Array(theme.keys)
+        themeIndex = Int(arc4random_uniform(UInt32(themeKeys.count)))
+        emojiChoices = Array(theme.values)[themeIndex]
+    }
 
     var emoji = [Int:String]()
     
