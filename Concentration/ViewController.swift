@@ -11,7 +11,11 @@ import UIKit
 class ViewController: UIViewController
 {
     
-    lazy var game = Concentration(numberOfPairOfCards: (cardButtons.count + 1) / 2)
+    lazy var game = Concentration(numberOfPairOfCards: numberOfPairOfCards)
+    
+    var numberOfPairOfCards: Int {
+        return ((cardButtons.count + 1) / 2)
+    }
     
     var flipCount = 0 {
         didSet {
@@ -77,7 +81,7 @@ class ViewController: UIViewController
             let randomIndex = Int(arc4random_uniform(UInt32(emojiChoices.count)))
             emoji[card.identifier] = emojiChoices.remove(at: randomIndex)
         }
-        print("card.identifier = \(emoji)")
+        print("numberOfPairOfCards = \(game)")
         return emoji[card.identifier] ?? "?"
     }
     
